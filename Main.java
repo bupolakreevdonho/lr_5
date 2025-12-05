@@ -1,57 +1,50 @@
-package timus_task1313;
+package timus_task1880;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.Arrays;
 
 public class Main {
-    static void main(String[] args) {
-        String inputFileName = "lr5/src/timus_task1880/input.txt";
-        boolean oj = System.getProperty("ONLINE_JUDGE") != null;
+    static void main(String[] args) throws IOException {
+    String inputFileName = "lr5/src/timus_task1880/input.txt";
+    boolean oj = System.getProperty("ONLINE_JUDGE") != null;
 
-        try {
-            BufferedReader bufferedReader =
-                    oj ? new BufferedReader(new InputStreamReader(System.in)) :
-                            new BufferedReader(new FileReader(inputFileName));
+    BufferedReader bufferedReader =
+            oj ? new BufferedReader(new InputStreamReader(System.in)) :
+                    new BufferedReader(new FileReader(inputFileName));
 
-            String line = bufferedReader.readLine();
-            if (line == null) return;
-            int size = Integer.parseInt(line.trim());
+    int size1 = Integer.parseInt(bufferedReader.readLine());
+    String[] strings1 = bufferedReader.readLine().split(" ");
+    int size2 = Integer.parseInt(bufferedReader.readLine());
+    String[] strings2 = bufferedReader.readLine().split(" ");
+    int size3 = Integer.parseInt(bufferedReader.readLine());
+    String[] strings3 = bufferedReader.readLine().split(" ");
 
-            int[][] ints = new int[size][size];
+    int allSize = size1 + size2 + size3;
+    String[] strings = new String[allSize];
 
-            for (int i = 0; i < size; i++) {
-                String readLine = bufferedReader.readLine();
-                if (readLine == null) {
+        for(int i = 0, x = 0, y = 0; i < allSize; i++) {
+        if(i < size1){
+            strings[i] = strings1[i];
+            continue;
+        }
+        if(i < (size1 +size2)) {
+            strings[i] = strings2[x];
+            x++;
+            continue;
+        }
+        strings[i] = strings3[y];
+        y++;
+    }
 
-                    break;
-                }
-                String[] strings = readLine.trim().split("\\s+");
-                for (int j = 0; j < size; j++) {
-                    if (j < strings.length) {
-                        ints[i][j] = Integer.parseInt(strings[j]);
-                    } else {
+        Arrays.sort(strings);
 
-                        ints[i][j] = 0;
-                    }
-                }
-            }
+    int count = 0;
 
-            for (int i = 0; i < size; i++) {
-                for (int j = i; j >= 0; j--) {
-                    System.out.print(ints[j][i - j] + " ");
-                }
-            }
-
-            for (int i = 1; i < size; i++) {
-                for (int j = size - 1; j >= i; j--) {
-                    System.out.print(ints[j][size - j + i - 1] + " ");
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (int i = 1; i < strings.length - 1; i++){
+        if (strings[i-1].equals(strings[i]) && strings[i].equals(strings[i+1])){
+            count++;
         }
     }
+        System.out.println(count);
+  }
 }
